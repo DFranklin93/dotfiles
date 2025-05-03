@@ -8,8 +8,8 @@ return {
       "Muniftanjim/nui.nvim",
     },
     config = function()
-      vim.keymap.set("n", "<leader>nrl", ":Neotree filesystem reveal left<CR>", { desc = "Neotree reveal left" });
-      vim.keymap.set("n", "<leader>ncl", ":Neotree close left<CR>", { desc = "Neotree close left" })
+      vim.keymap.set("n", "<leader>nr", ":Neotree filesystem reveal left<CR>", { desc = "Neotree reveal left" });
+      vim.keymap.set("n", "<leader>nc", ":Neotree close left<CR>", { desc = "Neotree close left" })
     end,
   }
 }
