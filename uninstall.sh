@@ -2,9 +2,6 @@
 
 set -e
 
-# Run uninstall scripts
-bash ./scripts/uninstall_firacode_nerd_font.sh
-
 echo "[*] Reverting Neovim configuration..."
 
 # Remove Neovim config symlink
@@ -33,5 +30,18 @@ echo "[*] Removing installed apt packages..."
 sudo apt remove --purge -y git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
 sudo apt autoremove -y
 sudo apt clean
+
+# Uninstall FiraCode Nerd Font
+echo "[*] Removing FiraCode Nerd Font..."
+FONT_DIR="$HOME/.local/share/fonts/FiraCode"
+if [ -d "$FONT_DIR" ]; then
+  rm -rf "$FONT_DIR"
+  echo "Removed font files from $FONT_DIR"
+else
+  echo "Font directory not found: $FONT_DIR"
+fi
+
+echo "[*] Refreshing font cache..."
+fc-cache -fv
 
 echo "[#] Uninstallation complete."
