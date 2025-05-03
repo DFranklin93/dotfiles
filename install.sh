@@ -5,9 +5,12 @@ set -e
 # Basic tools
 sudo apt update 
 sudo apt install -y git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
-sudo snap install nvim --classic
+
+# Run install scripts
+bash ./scripts/install_firacode_nerd_font.sh
 
 # Neovim Plugin setup
+sudo snap install nvim --classic
 echo "[*] Setting up Neovim config..."
 mkdir -p ~/.config
 ln -sf $(pwd)/.config/nvim ~/.config/nvim

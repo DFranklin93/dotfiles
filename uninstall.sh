@@ -2,6 +2,9 @@
 
 set -e
 
+# Run uninstall scripts
+bash ./scripts/uninstall_firacode_nerd_font.sh
+
 echo "[*] Reverting Neovim configuration..."
 
 # Remove Neovim config symlink
