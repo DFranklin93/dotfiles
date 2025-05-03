@@ -5,7 +5,7 @@ set -e
 # Basic tools
 sudo apt update 
 sudo apt install -y git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
-sudo snap install -y nvim
+sudo snap install nvim --classic
 
 # Neovim Plugin setup
 echo "[*] Setting up Neovim config..."
