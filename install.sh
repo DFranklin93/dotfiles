@@ -4,7 +4,7 @@ set -e
 
 # Basic tools
 sudo apt update 
-sudo apt install -y git curl zsh tmux build-essential xclip xse wl-clipboard xxd
+sudo apt install -y git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
 sudo snap update
 sudo snap install -y nvim
 
