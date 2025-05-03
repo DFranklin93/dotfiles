@@ -4,44 +4,74 @@ set -e
 
 echo "[*] Reverting Neovim configuration..."
 
-# Remove Neovim config symlink
-if [ -L ~/.config/nvim ] && [ "$(readlink ~/.config/nvim)" = "$HOME/dotfiles/.config/nvim" ]; then
-  echo "Removing symlink ~/.config/nvim"
-  rm ~/.config/nvim
+# Remove Neovim config symlink if it points to the dotfiles repo
+if [ -L ~/.config/nvim ]; then
+  TARGET=$(readlink ~/.config/nvim)
+  if [ "$TARGET" = "$HOME/dotfiles/.config/nvim" ]; then
+    echo "Removing symlink ~/.config/nvim"
+    rm ~/.config/nvim
+  else
+    echo "[!] ~/.config/nvim is a symlink, but not managed by this setup. Skipping."
+  fi
+elif [ -d ~/.config/nvim ]; then
+  echo "[!] ~/.config/nvim is a directory, not a symlink. Skipping removal to avoid data loss."
+else
+  echo "[✓] ~/.config/nvim not found. Nothing to remove."
 fi
 
 # Remove lazy.nvim plugin manager
-echo "Removing lazy.nvim plugin manager..."
-rm -rf ~/.local/share/nvim/site/pack/lazy/start/lazy.nvim
-
-# Cleanup dotfiles repo
-echo "Removing cloned dotfiles repo..."
-rm -rf ~/dotfiles
-
-# Uninstall Neovim snap if present
-echo "[*] Checking for Neovim Snap install..."
-if snap list | grep -q nvim; then
-  echo "Removing Neovim via Snap..."
-  sudo snap remove nvim
+LAZY_PATH="$HOME/.local/share/nvim/site/pack/lazy/start/lazy.nvim"
+if [ -d "$LAZY_PATH" ]; then
+  echo "Removing lazy.nvim plugin manager..."
+  rm -rf "$LAZY_PATH"
+else
+  echo "[✓] lazy.nvim not found."
 fi
 
-# Remove apt packages
+# Cleanup dotfiles repo
+if [ -d "$HOME/dotfiles" ]; then
+  echo "Removing cloned dotfiles repo..."
+  rm -rf "$HOME/dotfiles"
+else
+  echo "[✓] dotfiles repo not found. Skipping."
+fi
+
+# Uninstall Neovim snap if installed
+if snap list 2>/dev/null | grep -q nvim; then
+  echo "Removing Neovim via Snap..."
+  sudo snap remove nvim
+else
+  echo "[✓] Neovim Snap not installed."
+fi
+
+# Remove apt packages if they are present
+APT_PACKAGES=(
+  git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
+)
+
 echo "[*] Removing installed apt packages..."
-sudo apt remove --purge -y git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
+for pkg in "${APT_PACKAGES[@]}"; do
+  if dpkg -s "$pkg" >/dev/null 2>&1; then
+    echo "Removing $pkg..."
+    sudo apt remove --purge -y "$pkg"
+  else
+    echo "[✓] $pkg not installed."
+  fi
+done
+
 sudo apt autoremove -y
 sudo apt clean
 
 # Uninstall FiraCode Nerd Font
-echo "[*] Removing FiraCode Nerd Font..."
 FONT_DIR="$HOME/.local/share/fonts/FiraCode"
 if [ -d "$FONT_DIR" ]; then
+  echo "[*] Removing FiraCode Nerd Font..."
   rm -rf "$FONT_DIR"
-  echo "Removed font files from $FONT_DIR"
 else
-  echo "Font directory not found: $FONT_DIR"
+  echo "[✓] FiraCode Nerd Font directory not found."
 fi
 
 echo "[*] Refreshing font cache..."
 fc-cache -fv
 
-echo "[#] Uninstallation complete."
+echo "[✓] Uninstallation complete."
