@@ -4,6 +4,12 @@ set -e
 
 echo "[*] Installing Docker..."
 
+# Check if running inside a container
+if [ -f /.dockerenv ] || grep -q docker /proc/1/cgroup 2>/dev/null; then
+  echo "[⊘] Running inside a container, skipping Docker installation"
+  exit 0
+fi
+
 # Check if Docker is already installed
 if command -v docker >/dev/null 2>&1; then
   echo "[✓] Docker already installed ($(docker --version))"
@@ -45,7 +51,7 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 
 # Add user to docker group
 echo "[*] Adding user to docker group..."
-sudo usermod -aG docker $USER
+sudo usermod -aG docker $(whoami)
 
 # Verify installation
 echo "[*] Verifying Docker installation..."

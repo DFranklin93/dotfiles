@@ -7,10 +7,16 @@ DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 echo "[*] Installing Neovim..."
 
-# Install Neovim via snap if not present
+# Install Neovim 
 if ! command -v nvim >/dev/null 2>&1; then
-  echo "[*] Installing Neovim via snap..."
-  sudo snap install nvim --classic
+  if [ -f /.dockerenv ] || grep -q docker /proc/1/cgroup 2>/dev/null; then
+    echo "[*] Running in container, installing Neovim via apt..."
+    sudo apt-get update
+    sudo apt-get install -y neovim
+  else
+    echo "[*] Installing Neovim via snap..."
+    sudo snap install nvim --classic
+  fi
 else
   echo "[✓] Neovim already installed."
 fi
