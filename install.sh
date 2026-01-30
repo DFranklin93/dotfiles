@@ -20,12 +20,12 @@ for pkg in "${APT_PACKAGES[@]}"; do
 done
 
 echo "[*] Running font installer..."
-bash ./scripts/install_firacode_nerd_font.sh
+bash ./scripts/install/install_firacode_nerd_font.sh
 
 echo "[*] Running Docker installer..."
-bash ./scripts/install_docker.sh
+bash ./scripts/install/install_docker.sh
 
 echo "Running Neovim installer..."
-bash ./scripts/install_nvim.sh
+bash ./scripts/install/install_nvim.sh
 
 echo "[✓] Setup complete."
