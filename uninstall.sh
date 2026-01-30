@@ -74,4 +74,8 @@ fi
 echo "[*] Refreshing font cache..."
 fc-cache -fv
 
+# Uninstall Docker
+echo "[*] Running Docker uninstaller..."
+bash ./scripts/uninstall_docker.sh
+
 echo "[✓] Uninstallation complete."

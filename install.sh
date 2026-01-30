@@ -22,6 +22,9 @@ done
 echo "[*] Running font installer..."
 bash ./scripts/install_firacode_nerd_font.sh
 
+echo "[*] Running Docker installer..."
+bash ./scripts/install_docker.sh
+
 # Install Neovim via snap if not present
 if ! command -v nvim >/dev/null 2>&1; then
   echo "[*] Installing Neovim via snap..."
