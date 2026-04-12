@@ -63,19 +63,11 @@ sudo apt autoremove -y
 sudo apt clean
 
 # Uninstall FiraCode Nerd Font
-FONT_DIR="$HOME/.local/share/fonts/FiraCode"
-if [ -d "$FONT_DIR" ]; then
-  echo "[*] Removing FiraCode Nerd Font..."
-  rm -rf "$FONT_DIR"
-else
-  echo "[✓] FiraCode Nerd Font directory not found."
-fi
-
-echo "[*] Refreshing font cache..."
-fc-cache -fv
+echo "[*] Running FiraCode Nerd Font uninstaller..."
+bash ./scripts/uninstall/uninstall_firacode_nerd_font.sh
 
 # Uninstall Docker
 echo "[*] Running Docker uninstaller..."
-bash ./scripts/uninstall_docker.sh
+bash ./scripts/uninstall/uninstall_docker.sh
 
 echo "[✓] Uninstallation complete."
