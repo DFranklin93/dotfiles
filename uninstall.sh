@@ -2,72 +2,29 @@
 
 set -e
 
-echo "[*] Reverting Neovim configuration..."
+# ── Detect OS ───────────────────────────────────────────────────
+. "dotfiles/utils/detect_os.sh"
 
-# Remove Neovim config symlink if it points to the dotfiles repo
-if [ -L ~/.config/nvim ]; then
-  TARGET=$(readlink ~/.config/nvim)
-  if [ "$TARGET" = "$HOME/dotfiles/.config/nvim" ]; then
-    echo "Removing symlink ~/.config/nvim"
-    rm ~/.config/nvim
-  else
-    echo "[!] ~/.config/nvim is a symlink, but not managed by this setup. Skipping."
-  fi
-elif [ -d ~/.config/nvim ]; then
-  echo "[!] ~/.config/nvim is a directory, not a symlink. Skipping removal to avoid data loss."
-else
-  echo "[✓] ~/.config/nvim not found. Nothing to remove."
-fi
+OS=$(detect_os)
+echo "[*] Detected OS: $OS"
+echo ""
 
-# Remove lazy.nvim plugin manager
-LAZY_PATH="$HOME/.local/share/nvim/site/pack/lazy/start/lazy.nvim"
-if [ -d "$LAZY_PATH" ]; then
-  echo "Removing lazy.nvim plugin manager..."
-  rm -rf "$LAZY_PATH"
-else
-  echo "[✓] lazy.nvim not found."
-fi
+# ── Route to correct uninstaller ────────────────────────────────
+case "$OS" in
+    arch)
+        echo "[*] Routing to Arch Linux uninstaller..."
+        bash "$(dirname "$0")/scripts/uninstall/uninstall_arch.sh" "$@"
+        ;;
+    ubuntu|debian|linuxmint|pop)
+        echo "[*] Routing to Ubuntu/Debian uninstaller..."
+        bash "$(dirname "$0")/scripts/uninstall/uninstall_ubuntu.sh" "$@"
+        ;;
+    *)
+        echo "[!] Unsupported OS: $OS"
+        echo "    Supported: arch, ubuntu, debian, linuxmint, pop"
+        exit 1
+        ;;
+esac
 
-# Cleanup dotfiles repo
-if [ -d "$HOME/dotfiles" ]; then
-  echo "Removing cloned dotfiles repo..."
-  rm -rf "$HOME/dotfiles"
-else
-  echo "[✓] dotfiles repo not found. Skipping."
-fi
-
-# Uninstall Neovim snap if installed
-if snap list 2>/dev/null | grep -q nvim; then
-  echo "Removing Neovim via Snap..."
-  sudo snap remove nvim
-else
-  echo "[✓] Neovim Snap not installed."
-fi
-
-# Remove apt packages if they are present
-APT_PACKAGES=(
-  git curl zsh tmux build-essential xclip xsel wl-clipboard xxd
-)
-
-echo "[*] Removing installed apt packages..."
-for pkg in "${APT_PACKAGES[@]}"; do
-  if dpkg -s "$pkg" >/dev/null 2>&1; then
-    echo "Removing $pkg..."
-    sudo apt remove --purge -y "$pkg"
-  else
-    echo "[✓] $pkg not installed."
-  fi
-done
-
-sudo apt autoremove -y
-sudo apt clean
-
-# Uninstall FiraCode Nerd Font
-echo "[*] Running FiraCode Nerd Font uninstaller..."
-bash ./scripts/uninstall/uninstall_firacode_nerd_font.sh
-
-# Uninstall Docker
-echo "[*] Running Docker uninstaller..."
-bash ./scripts/uninstall/uninstall_docker.sh
-
+echo ""
 echo "[✓] Uninstallation complete."
