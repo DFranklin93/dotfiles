@@ -1,0 +1,26 @@
+#!/bin/bash
+/usr/bin/swaylock \
+  --color 1a1b26 \
+  --font "JetBrainsMono Nerd Font" \
+  --indicator-radius 100 \
+  --indicator-thickness 7 \
+  --ring-color 7aa2f7 \
+  --ring-ver-color 9ece6a \
+  --ring-wrong-color f7768e \
+  --ring-clear-color 7aa2f7 \
+  --key-hl-color 9ece6a \
+  --bs-hl-color f7768e \
+  --inside-color 1a1b26 \
+  --inside-ver-color 1a1b26 \
+  --inside-wrong-color 1a1b26 \
+  --inside-clear-color 1a1b26 \
+  --line-color 7aa2f7 \
+  --line-ver-color 9ece6a \
+  --line-wrong-color f7768e \
+  --line-clear-color 7aa2f7 \
+  --text-color c0caf5 \
+  --text-ver-color c0caf5 \
+  --text-wrong-color f7768e \
+  --text-clear-color c0caf5 \
+  --separator-color 00000000 \
+  --show-failed-attempts
