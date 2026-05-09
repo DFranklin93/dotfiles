@@ -1,0 +1,41 @@
+# ── General ────────────────────────────────────────────────────
+max-visible=5
+sort=-time
+layer=overlay
+max-actions=1
+
+# ── Layout ─────────────────────────────────────────────────────
+width=300
+height=100
+margin=10
+padding=10
+anchor=top-right
+
+# ── Styling ────────────────────────────────────────────────────
+border-size=2
+border-radius=8
+border-color=#cdd6f4
+background-color=#1e1e2ecc
+text-color=#cdd6f4
+progress-color=over #313244
+
+# ── Timing ─────────────────────────────────────────────────────
+default-timeout=5000
+ignore-timeout=0
+
+# ── Icons ──────────────────────────────────────────────────────
+icon-path=/usr/share/icons/hicolor
+max-icon-size=48
+
+# ── Urgency overrides ──────────────────────────────────────────
+[urgency=low]
+border-color=#a6e3a1
+default-timeout=3000
+
+[urgency=normal]
+border-color=#cdd6f4
+default-timeout=5000
+
+[urgency=high]
+border-color=#f38ba8
+default-timeout=0

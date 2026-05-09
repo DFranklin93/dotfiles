@@ -4,7 +4,7 @@ return {
     build = ":TSUpdate",                     -- Automatically update Treesitter parsers
     event = { "BufReadPost", "BufNewFile" }, -- Load only when needed
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter.config").setup({
         auto_install = true,
         ensure_installed = { "markdown", "markdown_inline" },
         highlight = { enable = true },
