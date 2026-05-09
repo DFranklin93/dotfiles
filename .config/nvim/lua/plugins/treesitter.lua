@@ -1,6 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",                     -- Automatically update Treesitter parsers
     event = { "BufReadPost", "BufNewFile" }, -- Load only when needed
     config = function()
