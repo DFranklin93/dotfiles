@@ -6,7 +6,7 @@ set -e
 DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 # ── Detect OS ───────────────────────────────────────────────────
-. "dotfiles/utils/detect_os.sh"
+. "$DOTFILES_ROOT/utils/detect_os.sh"
 
 OS=$(detect_os)
 
@@ -60,7 +60,7 @@ case "$OS" in
             echo "[✓] Neovim not installed via pacman."
         fi
         ;;
-    ubuntu|debian|linuxmint|pop)
+    ubuntu|debian|linuxmint|pop|wsl2)
         if snap list 2>/dev/null | grep -q nvim; then
             echo "[*] Removing Neovim via snap..."
             sudo snap remove nvim
